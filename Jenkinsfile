@@ -42,48 +42,48 @@ pipeline {
             }
         }
         
-        stage('Deploy to Remote Server') {
-            steps {
-                // Deploy Juice Shop to remote server
-                script {
-                    withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                        sh 'echo $SSH_KEY'
-                        sh '''
-                            scp -o StrictHostKeyChecking=no -i $SSH_KEY -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
-                        '''
-                    }
-                }
-            }
-        }
+    //     stage('Deploy to Remote Server') {
+    //         steps {
+    //             // Deploy Juice Shop to remote server
+    //             script {
+    //                 withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
+    //                     sh 'echo $SSH_KEY'
+    //                     sh '''
+    //                         scp -o StrictHostKeyChecking=no -i $SSH_KEY -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
+    //                     '''
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        stage('Run Juice Shop on Remote Server') {
-            steps {
-                // Connect to remote server and start Juice Shop
-                script {
-                    withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm start &"
-                            sleep 30
-                        '''
-                    }
-                }
-            }
-        }
+    //     stage('Run Juice Shop on Remote Server') {
+    //         steps {
+    //             // Connect to remote server and start Juice Shop
+    //             script {
+    //                 withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
+    //                     sh '''
+    //                         ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm start &"
+    //                         sleep 30
+    //                     '''
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        stage('Run Tests') {
-            steps {
-                // Add your test commands here (e.g., using a testing framework like Cypress)
-                // For simplicity, let's assume there's a script called 'run-tests.sh'
-                script {
-                    withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && ./run-tests.sh"
-                        '''
-                    }
-                }
-            }
-        }
-    }
+    //     stage('Run Tests') {
+    //         steps {
+    //             // Add your test commands here (e.g., using a testing framework like Cypress)
+    //             // For simplicity, let's assume there's a script called 'run-tests.sh'
+    //             script {
+    //                 withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
+    //                     sh '''
+    //                         ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && ./run-tests.sh"
+    //                     '''
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     post {
         success {
