@@ -25,7 +25,8 @@ pipeline {
             steps {
                 // Install Node.js and npm
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                sh 'source ~/.bashrc'
+                sh 'export NVM_DIR="/var/lib/jenkins/.nvm"'
+                sh '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"'
                 sh 'nvm install lts/fermium'
                 sh 'node -v'
 
