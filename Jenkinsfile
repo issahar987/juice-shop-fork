@@ -23,15 +23,16 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Install Node.js and npm
-                sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                sh 'export NVM_DIR="/var/lib/jenkins/.nvm"'
-                sh '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"'
-                sh 'nvm install lts/fermium'
-                sh 'node -v'
-
-                // Install Juice Shop dependencies
-                sh 'npm install'
+                script {
+                    // Install Node.js and npm
+                    sh '''
+                        curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | bash -
+                        apt-get install -y nodejs
+                        node -v
+                        npm -v
+                        npm install
+                    '''
+                }
             }
         }
 
