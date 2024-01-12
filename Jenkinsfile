@@ -25,7 +25,7 @@ pipeline {
             steps {
                 // Install nvm
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                sh 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+                sh 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
 
                 // Install Node.js using nvm
                 sh 'nvm install lts/fermium && node -v'
@@ -40,10 +40,7 @@ pipeline {
                 // Deploy Juice Shop to remote server
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                        def deployStatus = sh(script: 'scp -o StrictHostKeyChecking=no -i $SSH_KEY -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}', returnStatus: true)
-                        if (deployStatus != 0) {
-                            error "Deployment to remote server failed!"
-                        }
+                        sh "scp -o StrictHostKeyChecking=no -i $SSH_KEY -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}"
                     }
                 }
             }
@@ -54,10 +51,8 @@ pipeline {
                 // Connect to remote server and start Juice Shop
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm start &"
-                            sleep 30
-                        '''
+                        sh "ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} 'cd ${REMOTE_PATH} && npm start &'"
+                        sleep 30
                     }
                 }
             }
@@ -69,10 +64,7 @@ pipeline {
                 // For simplicity, let's assume there's a script called 'run-tests.sh'
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                        def testStatus = sh(script: 'ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && ./run-tests.sh"', returnStatus: true)
-                        if (testStatus != 0) {
-                            error "Tests failed!"
-                        }
+                        sh "ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} 'cd ${REMOTE_PATH} && ./run-tests.sh'"
                     }
                 }
             }
@@ -84,9 +76,7 @@ pipeline {
             // Clean up (stop Juice Shop on remote server) only if the build was successful
             script {
                 withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm stop"
-                    '''
+                    sh "ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} 'cd ${REMOTE_PATH} && npm stop'"
                 }
             }
         }
