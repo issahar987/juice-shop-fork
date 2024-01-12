@@ -10,7 +10,7 @@ pipeline {
         REMOTE_HOST = '34.76.3.235'
         REMOTE_USER = 'issah'
         REMOTE_PATH = '/home/issah/juiceshop'
-        SSH_CREDENTIALS_ID = 'ssh-key-to-remote-server'\
+        SSH_CREDENTIALS_ID = 'ssh-key-to-remote-server'
         NODEJS_VERSION = '14'
     }
 
