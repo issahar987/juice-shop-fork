@@ -14,24 +14,11 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout your source code repository (assuming it contains the Juice Shop code)
-                git 'https://github.com/issahar987/juice-shop-fork'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 // Install Node.js and npm
-                sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                sh 'export NVM_DIR="/var/lib/jenkins/.nvm"'
-                sh '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"'
-                sh 'nvm install lts/fermium'
-                sh 'node -v'
-
-                // Install Juice Shop dependencies
-                sh 'npm install'
+                sh 'curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - &&\'
+                sh 'apt-get install -y nodejs'
             }
         }
 
