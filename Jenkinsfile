@@ -23,12 +23,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Install nvm
-                sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                sh 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
-
-                // Install Node.js using nvm
-                sh 'nvm install lts/fermium && node -v'
+                // Install Node.js and npm
+                sh 'curl -sL https://deb.nodesource.com/setup_14.x | bash -'
+                sh 'apt install -y nodejs'
 
                 // Install Juice Shop dependencies
                 sh 'npm install'
@@ -76,12 +73,4 @@ pipeline {
             // Clean up (stop Juice Shop on remote server) only if the build was successful
             script {
                 withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                    sh "ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} 'cd ${REMOTE_PATH} && npm stop'"
-                }
-            }
-        }
-        failure {
-            echo "Build failed! Skipping clean up."
-        }
-    }
-}
+                    sh "ssh -o StrictHostKeyChecking=no
