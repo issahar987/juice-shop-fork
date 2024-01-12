@@ -23,11 +23,12 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Install Node.js and npm
+                // Install nvm
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
-                sh 'source ~/.bashrc'
-                sh 'nvm install lts/fermium'
-                sh 'node -v'
+                sh 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+
+                // Install Node.js using nvm
+                sh 'nvm install lts/fermium && node -v'
 
                 // Install Juice Shop dependencies
                 sh 'npm install'
@@ -39,9 +40,10 @@ pipeline {
                 // Deploy Juice Shop to remote server
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                        sh '''
-                            scp -o StrictHostKeyChecking=no -i $SSH_KEY -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
-                        '''
+                        def deployStatus = sh(script: 'scp -o StrictHostKeyChecking=no -i $SSH_KEY -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}', returnStatus: true)
+                        if (deployStatus != 0) {
+                            error "Deployment to remote server failed!"
+                        }
                     }
                 }
             }
@@ -67,9 +69,10 @@ pipeline {
                 // For simplicity, let's assume there's a script called 'run-tests.sh'
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && ./run-tests.sh"
-                        '''
+                        def testStatus = sh(script: 'ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && ./run-tests.sh"', returnStatus: true)
+                        if (testStatus != 0) {
+                            error "Tests failed!"
+                        }
                     }
                 }
             }
