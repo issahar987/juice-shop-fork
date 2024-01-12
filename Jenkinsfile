@@ -30,6 +30,18 @@ pipeline {
             }
         }
 
+        stage('SSH Connection') {
+            steps {
+                script {
+                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+                        // Now you can execute commands over SSH here
+                        sh 'ssh ${REMOTE_USER}@${REMOTE_HOST "echo whoami"'
+                    }
+                }
+            }
+        }
+        
         stage('Deploy to Remote Server') {
             steps {
                 // Deploy Juice Shop to remote server
