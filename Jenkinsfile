@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     echo "Current user: ${env.USER}"
-                    sh 'whoami'
+                    echo "whoami"
                 }
             }
         }
