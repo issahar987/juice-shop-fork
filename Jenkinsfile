@@ -36,7 +36,9 @@ pipeline {
                     // The credentialsId is the ID of the SSH credentials you configured in Jenkins
                     sshagent(credentials: [SSH_CREDENTIALS_ID]) {
                         // Now you can execute commands over SSH here
-                        sh 'ssh ${REMOTE_USER}@${REMOTE_HOST} "echo whoami"'
+                        sh 'ssh ${REMOTE_USER}@${REMOTE_HOST}'
+                        echo "Current user: ${env.USER}"
+                        echo "whoami"
                     }
                 }
             }
@@ -85,19 +87,19 @@ pipeline {
     //     }
     }
 
-    post {
-        success {
-            // Clean up (stop Juice Shop on remote server) only if the build was successful
-            script {
-                withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm stop"
-                    '''
-                }
-            }
-        }
-        failure {
-            echo "Build failed! Skipping clean up."
-        }
-    }
+    // post {
+    //     success {
+    //         // Clean up (stop Juice Shop on remote server) only if the build was successful
+    //         script {
+    //             withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
+    //                 sh '''
+    //                     ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm stop"
+    //                 '''
+    //             }
+    //         }
+    //     }
+    //     failure {
+    //         echo "Build failed! Skipping clean up."
+    //     }
+    // }
 }
