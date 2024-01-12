@@ -21,6 +21,7 @@ pipeline {
                     echo "Current user: ${env.USER}"
                 }
             }
+        }
         stage('Checkout') {
             steps {
                 // Checkout your source code repository (assuming it contains the Juice Shop code)
