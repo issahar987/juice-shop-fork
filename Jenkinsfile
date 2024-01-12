@@ -35,6 +35,7 @@ pipeline {
                 // Deploy Juice Shop to remote server
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
+                        sh 'echo $SSH_KEY'
                         sh '''
                             scp -o StrictHostKeyChecking=no -i $SSH_KEY -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
                         '''
