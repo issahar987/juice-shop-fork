@@ -36,7 +36,7 @@ pipeline {
                     // The credentialsId is the ID of the SSH credentials you configured in Jenkins
                     sshagent(credentials: [SSH_CREDENTIALS_ID]) {
                         // Now you can execute commands over SSH here
-                        sh 'ssh ${REMOTE_USER}@${REMOTE_HOST "echo whoami"'
+                        sh 'ssh ${REMOTE_USER}@${REMOTE_HOST} "echo whoami"'
                     }
                 }
             }
