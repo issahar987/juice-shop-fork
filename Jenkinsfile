@@ -30,21 +30,6 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                script {
-                    // Install Node.js and npm
-                    sh '''
-                        curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION}.x | bash -
-                        apt-get install -y nodejs
-                        node -v
-                        npm -v
-                        npm install
-                    '''
-                }
-            }
-        }
-
         stage('Deploy to Remote Server') {
             steps {
                 // Deploy Juice Shop to remote server
