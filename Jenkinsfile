@@ -15,6 +15,12 @@ pipeline {
     }
 
     stages {
+        stage('Check User') {
+            steps {
+                script {
+                    echo "Current user: ${env.USER}"
+                }
+            }
         stage('Checkout') {
             steps {
                 // Checkout your source code repository (assuming it contains the Juice Shop code)
