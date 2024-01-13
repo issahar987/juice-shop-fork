@@ -22,6 +22,7 @@ pipeline {
         stage('Nikting') {
             steps {
                 script {
+                    // sh "docker run --rm nikto ${REMOTE_HOST}:3000 "
                     sh "docker run --rm nikto"
                 }
             }
