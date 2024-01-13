@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     dir("${RAPORT_PATH}") {
-                        def jsonFile = readJSON file: ${FILE_NAME}
+                        def jsonFile = readJSON file: "${FILE_NAME}"
 
                         jsonFile.each { key, value ->
                             echo "Key: ${key}, Value: ${value}"
