@@ -16,6 +16,7 @@ pipeline {
         REMOTE_HOST = '10.132.0.2'
         REMOTE_PORT = '3000'
         RAPORT_PATH = "/home/Nikto"
+        FILE_NAME = "nikto.json"
     }
 
     stages {
@@ -23,7 +24,7 @@ pipeline {
             steps {
                 script {
                     try{
-                        //sh '''docker run --rm -v ${RAPORT_PATH}:/tmp --network="host" nikto -h ${REMOTE_HOST}:${REMOTE_PORT} -o /tmp/nikto.json '''
+                        //sh '''docker run --rm -v ${RAPORT_PATH}:/tmp --network="host" nikto -h ${REMOTE_HOST}:${REMOTE_PORT} -o /tmp/${FILE_NAME} '''
                     }catch(Exception e){
                         echo "nie wiadomo"
                         //echo "(\__/)"
@@ -36,7 +37,7 @@ pipeline {
          stage('Read and Print JSON') {
             steps {
                 script {
-                    def jsonFile = readJSON file: '${RAPORT_PATH}/nikto.json'
+                    def jsonFile = readJSON file: '${RAPORT_PATH}/${FILE_NAME}'
 
                     jsonFile.each { key, value ->
                         echo "Key: ${key}, Value: ${value}"
