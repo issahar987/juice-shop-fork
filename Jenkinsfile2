@@ -27,6 +27,7 @@ pipeline {
         stage('Download Nikto') {
             steps {
                 script {
+                    sh "rm -rf nikto"
                     try {
                         // Code that may throw an exception
                         sh "cd nikto"
