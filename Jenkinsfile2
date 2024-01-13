@@ -27,18 +27,16 @@ pipeline {
         stage('Download Nikto') {
             steps {
                 script {
-                    sh "rm -rf nikto"
                     try {
                         // Code that may throw an exception
-                        sh "cd nikto"
-                        sh "cat Dockerfile"
-                        echo 'It exists'
+                        sh "docker run --rm sullo/nikto"
                     } catch (Exception e) {
                         // Handle the exception
                         echo "An exception occurred: ${e.message}"
                         sh "git clone https://github.com/sullo/nikto.git"
                         sh "cd nikto"
-                        sh "ls"
+                        sh "docker build -t sullo/nikto ."
+                        sh "docker run --rm sullo/nikto"
                     }
                 }
             }
