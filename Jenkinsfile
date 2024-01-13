@@ -44,28 +44,20 @@ pipeline {
                 }
             }
         }
-        stage('SSH still in?') {
+        
+        stage('Deploy to Remote Server') {
             steps {
+                // Deploy Juice Shop to remote server
                 script {
                     // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-                    sh 'ls'
+                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+                        sh '''
+                            scp -o StrictHostKeyChecking=no -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
+                        '''
+                    }
                 }
             }
         }
-        
-    //     stage('Deploy to Remote Server') {
-    //         steps {
-    //             // Deploy Juice Shop to remote server
-    //             script {
-    //                 withCredentials([sshUserPrivateKey(credentialsId: SSH_CREDENTIALS_ID, keyFileVariable: 'SSH_KEY')]) {
-    //                     sh 'echo $SSH_KEY'
-    //                     sh '''
-    //                         scp -o StrictHostKeyChecking=no -i $SSH_KEY -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
-    //                     '''
-    //                 }
-    //             }
-    //         }
-    //     }
 
     //     stage('Run Juice Shop on Remote Server') {
     //         steps {
