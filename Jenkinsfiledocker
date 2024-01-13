@@ -43,20 +43,19 @@ pipeline {
             }
         }
 
-              // stage('Install dependecies') {
-        //     steps {
-        //         script {
-        //             node('webapp-agent') {
-        //                 // Komendy SSH bez użycia sshagent
+        stage('Build docker') {
+             steps {
+                 script {
+                     node('webapp-agent') {
         //                 env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
-        //                 dir("${REMOTE_PATH}") {
-        //                     sh 'npm install'
-        //                 }
+                         dir("${REMOTE_PATH}") {
+                             sh 'npm install'
+                         }
                        
-        //             }
-        //         }
-        //     }
-        // }
+                     }
+                 }
+             }
+        }
         
         // stage('Build Docker Image on Remote Server') {
         //     steps {
