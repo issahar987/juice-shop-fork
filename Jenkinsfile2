@@ -24,11 +24,16 @@ pipeline {
                 }
             }
         }
-        stage('Check docker') {
+        stage('Download Nikto') {
             steps {
                 script {
-                    sh "docker"
                     sh "git clone https://github.com/sullo/nikto.git"
+                }
+            }
+        }
+        stage('Check Nikto') {
+            steps {
+                script {
                     sh "cd nikto"
                     sh "ls"
                 }
