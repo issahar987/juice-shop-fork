@@ -85,8 +85,8 @@ pipeline {
                 script {
                     node('webapp-agent') {
                         // Komendy SSH bez użycia sshagent
-                        sh 'cd ${REMOTE_PATH}'
                         env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
+                        sh 'cd ${REMOTE_PATH}'
                         sh 'npm install'
                     }
                 }
