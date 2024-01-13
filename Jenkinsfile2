@@ -40,8 +40,9 @@ pipeline {
                     dir("${RAPORT_PATH}") {
                         def jsonFile = readJSON file: "${FILE_NAME}"
 
-                        jsonFile.each { key, value ->
-                            echo "Key: ${key}, Value: ${value}"
+                        def vulnerabilityCounts = jsonFile[0].vulnerabilities.collect { it.size() }
+                        vulnerabilityCounts.eachWithIndex { count, index ->
+                            echo "Item ${index + 1}: Count: ${count}"
                         }
                     }
                 }
