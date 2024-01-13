@@ -33,7 +33,7 @@ pipeline {
                         sh "docker run --disable-content-trust --rm sullo/nikto"
                     } catch (Exception a) {
                         // Handle the exception
-                        echo "An exception occurred: ${e.message}"
+                        echo "An exception occurred: ${a.message}"
                         echo "image not working"
                         try{
                             echo "installing..."
