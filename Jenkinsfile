@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-                        sh 'ls'
+                        sh 'ssh ${REMOTE_USER}@${REMOTE_HOST} "ls"'
                 }
             }
         }
