@@ -29,17 +29,6 @@ pipeline {
             }
         }
 
-        stage('Deploy to Remote Server') {
-            steps {
-                script {
-                    node('webapp-agent') {
-                        // Komendy SSH bez użycia sshagent
-                        echo 'ls'
-                    }
-                }
-            }
-        }
-
         // stage('SSH Connection') {
         //     steps {
         //         script {
@@ -52,19 +41,19 @@ pipeline {
         //     }
         // }
         
-        // stage('Deploy to Remote Server') {
-        //     steps {
-        //         // Deploy Juice Shop to remote server
-        //         script {
-        //             // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-        //                 sh '''
-        //                     scp -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
-        //                 '''
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Deploy to Remote Server') {
+            steps {
+                // Deploy Juice Shop to remote server
+                script {
+                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+                        sh '''
+                            scp -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
+                        '''
+                    }
+                }
+            }
+        }
         
         // stage('Build Docker Image on Remote Server') {
         //     steps {
@@ -90,6 +79,18 @@ pipeline {
         //         }
         //     }
         // }
+
+        stage('Install dependecies') {
+            steps {
+                script {
+                    node('webapp-agent') {
+                        // Komendy SSH bez użycia sshagent
+                        sh 'cd ${REMOTE_PATH}'
+                        sh 'npm install'
+                    }
+                }
+            }
+        }
 
         // stage('Run Juice Shop on Remote Server') {
         //     steps {
