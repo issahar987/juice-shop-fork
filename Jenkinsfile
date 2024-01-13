@@ -9,7 +9,7 @@ pipeline {
     environment {
         REMOTE_HOST = '34.76.3.235'
         REMOTE_USER = 'issah'
-        REMOTE_PATH = '/home/issah/juiceshop'
+        REMOTE_PATH = '/home/jenkins/juiceshop'
         SSH_CREDENTIALS_ID = 'ssh-key-to-remote-server'
     }
 
