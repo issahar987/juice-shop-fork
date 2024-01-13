@@ -70,21 +70,6 @@ pipeline {
             }
         }
 
-        stage('Install dependecies') {
-            steps {
-                // Deploy Juice Shop to remote server
-                script {
-                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-                        sh '''
-                            ssh ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm start &"
-                            sleep 30
-                        '''
-                    }
-                }
-            }
-        }
-
         stage('Run Juice Shop on Remote Server') {
             steps {
                 // Connect to remote server and start Juice Shop
