@@ -25,7 +25,7 @@ pipeline {
                 script {
                     try{
                         sh '''docker run --rm -v ${RAPORT_PATH}:/tmp --network="host" nikto -h ${REMOTE_HOST}:${REMOTE_PORT} -o /tmp/nikto.json '''
-                    }catch{
+                    }catch(Exception e){
                         echo "(\__/)"
                         echo "(='.'=)"
                         echo "(")__(")"
