@@ -57,7 +57,7 @@ pipeline {
              }
         }
 
-        stage('Build docker') {
+        stage('Run docker') {
                      steps {
                          script {
                              node('webapp-agent') {
