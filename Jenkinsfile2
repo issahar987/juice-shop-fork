@@ -22,7 +22,7 @@ pipeline {
         stage('Nikting') {
             steps {
                 script {
-                    sh "docker run --rm sullo/nikto"
+                    sh "docker run --rm nikto:lastest"
                 }
             }
         }
