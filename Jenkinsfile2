@@ -24,5 +24,12 @@ pipeline {
                 }
             }
         }
+        stage('Check docker') {
+            steps {
+                script {
+                    sh "docker"
+                }
+            }
+        }
     }
 }
