@@ -43,6 +43,14 @@ pipeline {
                 }
             }
         }
+        stage('SSH still in?') {
+            steps {
+                script {
+                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+                    sh 'ls'
+                }
+            }
+        }
         
     //     stage('Deploy to Remote Server') {
     //         steps {
