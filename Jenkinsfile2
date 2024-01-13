@@ -30,7 +30,7 @@ pipeline {
                     try {
                         // Code that may throw an exception
                         echo "running image"
-                        sh "docker run --disable-content-trust --rm sullo/nikto"
+                        sh "docker run  --rm nikto:latest"
                     } catch (Exception a) {
                         // Handle the exception
                         echo "An exception occurred: ${a.message}"
@@ -43,8 +43,8 @@ pipeline {
                             sh "git clone https://github.com/sullo/nikto.git"
                             sh "cd nikto"
                         }
-                        sh "docker build -t sullo/nikto ."
-                        sh "docker run --disable-content-trust --rm sullo/nikto"
+                        sh "docker build -t nikto:latest ."
+                        sh "docker run --rm nikto:latest"
                     }
                 }
             }
