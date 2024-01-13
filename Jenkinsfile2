@@ -30,7 +30,6 @@ pipeline {
                     try {
                         // Code that may throw an exception
                         echo "running image"
-                        sh "whoami"
                         sh "docker run  --rm nikto:latest"
                     } catch (Exception a) {
                         // Handle the exception
@@ -45,7 +44,9 @@ pipeline {
                             sh "cd nikto"
                         }
                         sh "docker build -t nikto:latest ."
+                        echo "test1"
                         sh "docker run --rm nikto:latest"
+                        echo "test2"
                     }
                 }
             }
