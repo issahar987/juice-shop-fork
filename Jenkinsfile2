@@ -29,12 +29,20 @@ pipeline {
                 script {
                     try {
                         // Code that may throw an exception
+                        echo "running image"
                         sh "docker run --rm sullo/nikto"
                     } catch (Exception e) {
                         // Handle the exception
                         echo "An exception occurred: ${e.message}"
-                        sh "git clone https://github.com/sullo/nikto.git"
-                        sh "cd nikto"
+                        echo "image not working"
+                        try{
+                            echo "installing..."
+                            sh "cd nikto"
+                        } catch (Exception e) {
+                            echo "files not found..."
+                            sh "git clone https://github.com/sullo/nikto.git"
+                            sh "cd nikto"
+                        }
                         sh "docker build -t sullo/nikto ."
                         sh "docker run --rm sullo/nikto"
                     }
