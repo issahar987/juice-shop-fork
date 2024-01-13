@@ -37,6 +37,7 @@ pipeline {
                     sshagent(credentials: [SSH_CREDENTIALS_ID]) {
                         // Now you can execute commands over SSH here
                         sh 'ssh ${REMOTE_USER}@${REMOTE_HOST} "ls"'
+                        sh "ls"
                         echo "Current user: ${env.USER}"
                         echo "whoami"
                     }
