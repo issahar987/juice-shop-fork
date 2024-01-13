@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    triggers {
+        // Trigger the pipeline on every push to the repository
+        githubPush()
+    }
+
+    environment {
+        REMOTE_HOST = '34.76.3.235'
+        REMOTE_USER = 'issah'
+        REMOTE_PATH = '/home/issah/juiceshop'
+        SSH_CREDENTIALS_ID = 'ssh-key-to-remote-server'
+        NODEJS_VERSION = '14'
+    }
+
+    stages {
+        stage('Check User') {
+            steps {
+                script {
+                    echo "Current user: ${env.USER}"
+                    echo "whoami"
+                }
+            }
+        }
+        stage('Checkout') {
+            steps {
+                // Checkout your source code repository (assuming it contains the Juice Shop code)
+                git 'https://github.com/issahar987/juice-shop-fork'
+            }
+        }
+
+        stage('SSH Connection') {
+            steps {
+                script {
+                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+                        // Now you can execute commands over SSH here
+                        sh 'ssh ${REMOTE_USER}@${REMOTE_HOST} "ls"'
+                    }
+                }
+            }
+        }
+    }
+}
