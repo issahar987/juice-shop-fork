@@ -16,25 +16,10 @@ pipeline {
     }
 
     stages {
-        stage('Check User') {
+        stage('Nikting') {
             steps {
                 script {
-                    echo "Current user: ${env.USER}"
-                    echo "whoami"
-                }
-            }
-        }
-        stage('Download Nikto') {
-            steps {
-                script {
-                    try {
-                        // Code that may throw an exception
-                        echo "running image"
-                        sh "nikto"
-                    } catch (Exception a) {
-                        sh "apt install nikto -y"
-                        sh "nikto"
-                    }
+                    sh "docker run --rm sullo/nikto"
                 }
             }
         }
