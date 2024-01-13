@@ -19,7 +19,7 @@ pipeline {
         stage('Nikting') {
             steps {
                 script {
-                    sh "docker run --rm sullo/nikto"
+                    sh "sudo docker run --rm sullo/nikto"
                 }
             }
         }
