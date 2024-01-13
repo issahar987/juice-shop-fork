@@ -28,6 +28,9 @@ pipeline {
             steps {
                 script {
                     sh "docker"
+                    sh "git clone https://github.com/sullo/nikto.git"
+                    sh "cd nikto"
+                    sh "ls"
                 }
             }
         }
