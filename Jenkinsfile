@@ -86,6 +86,7 @@ pipeline {
                     node('webapp-agent') {
                         // Komendy SSH bez użycia sshagent
                         sh 'cd ${REMOTE_PATH}'
+                        sh 'export PATH=$PATH:/home/issah/.nvm/versions/node/v20.11.0/bin/'
                         sh 'npm install'
                     }
                 }
