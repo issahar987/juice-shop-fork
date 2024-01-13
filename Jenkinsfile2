@@ -47,6 +47,7 @@ pipeline {
                         vulnerabilityCounts.eachWithIndex { count, index ->
                             echo "Count of items in 'vulnerabilities[${index}]': ${count}"
                         }
+                    }
                 }
             }
         }
