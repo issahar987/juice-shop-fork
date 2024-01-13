@@ -1,6 +1,9 @@
 pipeline {
-    agent Built-In Node
-
+    agent {
+        node {
+            label 'Built-In Node'
+        }
+}
     triggers {
         // Trigger the pipeline on every push to the repository
         // eo eo 
