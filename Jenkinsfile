@@ -11,7 +11,6 @@ pipeline {
         REMOTE_USER = 'issah'
         REMOTE_PATH = '/home/issah/juiceshop'
         SSH_CREDENTIALS_ID = 'ssh-key-to-remote-server'
-        NODEJS_VERSION = '14'
     }
 
     stages {
@@ -30,31 +29,41 @@ pipeline {
             }
         }
 
-        stage('SSH Connection') {
-            steps {
-                script {
-                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-                        // Now you can execute commands over SSH here
-                        sh 'ssh ${REMOTE_USER}@${REMOTE_HOST} "ls"'
-                    }
-                }
-            }
-        }
-        
         stage('Deploy to Remote Server') {
             steps {
-                // Deploy Juice Shop to remote server
                 script {
-                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-                        sh '''
-                            scp -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
-                        '''
-                    }
+                    node('webapp-agent') {
+                        // Komendy SSH bez użycia sshagent
+                        sh 'ls'
                 }
             }
         }
+
+        // stage('SSH Connection') {
+        //     steps {
+        //         script {
+        //             // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+        //                 // Now you can execute commands over SSH here
+        //                 sh 'ssh ${REMOTE_USER}@${REMOTE_HOST} "ls"'
+        //             }
+        //         }
+        //     }
+        // }
+        
+        // stage('Deploy to Remote Server') {
+        //     steps {
+        //         // Deploy Juice Shop to remote server
+        //         script {
+        //             // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+        //                 sh '''
+        //                     scp -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
         
         // stage('Build Docker Image on Remote Server') {
         //     steps {
@@ -66,20 +75,20 @@ pipeline {
         //     }
         // }
 
-        stage('Install dependecies') {
-            steps {
+        // stage('Install dependecies') {
+        //     steps {
                 
-                // Deploy Juice Shop to remote server
-                script {
-                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-                        sh '''
-                            ssh ${REMOTE_USER}@${REMOTE_HOST} "export PATH=$PATH:/home/issah/.nvm/versions/node/v20.11.0/bin/ && cd ${REMOTE_PATH} && npm install"
-                        '''
-                    }
-                }
-            }
-        }
+        //         // Deploy Juice Shop to remote server
+        //         script {
+        //             // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+        //                 sh '''
+        //                     ssh ${REMOTE_USER}@${REMOTE_HOST} "export PATH=$PATH:/home/issah/.nvm/versions/node/v20.11.0/bin/ && cd ${REMOTE_PATH} && npm install"
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
         // stage('Run Juice Shop on Remote Server') {
         //     steps {
