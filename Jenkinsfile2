@@ -25,6 +25,7 @@ pipeline {
                     try{
                         sh '''docker run --rm -v ${RAPORT_PATH}:/tmp --network="host" nikto -h ${REMOTE_HOST}:${REMOTE_PORT} -o /tmp/nikto.json '''
                     }catch(Exception e){
+                        echo "nie wiadomo"
                         //echo "(\__/)"
                         //echo "(='.'=)"
                         //echo "(")__(")"
