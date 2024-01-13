@@ -33,5 +33,16 @@ pipeline {
                 }
             }
         }
+         stage('Read and Print JSON') {
+            steps {
+                script {
+                    def jsonFile = readJSON file: 'path/to/your/file.json'
+
+                    jsonFile.each { key, value ->
+                        echo "Key: ${key}, Value: ${value}"
+                    }
+                }
+            }
+        }
     }
 }
