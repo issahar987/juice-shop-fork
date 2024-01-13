@@ -41,8 +41,8 @@ pipeline {
                         
                         def vulnerabilityCounts = jsonFile[0].vulnerabilities.collect { it.size() }
 
-                        vulnerabilityCounts.eachWithIndex { count, index ->
-                            echo "Count of items in 'vulnerabilities[${index}]': ${count}"
+                        jsonFile[0].vulnerabilities.eachWithIndex { items, index ->
+                            echo "Index of 'vulnerabilities': ${index}"
                         }
                     }
                 }
