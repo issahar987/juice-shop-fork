@@ -40,10 +40,8 @@ pipeline {
                         def jsonFile = readJSON file: "${FILE_NAME}"                        
                         
                         def totalIndexes = jsonFile[0].vulnerabilities.size()
-                        echo "Total number of indexes in 'vulnerabilities': ${totalIndexes}"
-
                         if (totalIndexes > 200) {
-                            error "Build failed: Total number of indexes in 'vulnerabilities' is greater than 200"
+                            error "Build failed: Total number of vulnerabilities is greater than 200 (${totalIndexes})"
                         } else {
                             echo "It's safe with 'only' ${totalIndexes} vulnerabilities"
                         }
