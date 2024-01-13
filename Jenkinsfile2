@@ -40,7 +40,7 @@ pipeline {
                     dir("${RAPORT_PATH}") {
                         def jsonFile = readJSON file: "${FILE_NAME}"                        
                         def vulnerabilityCount = jsonFile[0].vulnerabilities[0].size()
-                        return vulnerabilityCount
+                        echo "${vulnerabilityCount}"
                     }
                 }
             }
