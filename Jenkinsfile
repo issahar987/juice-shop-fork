@@ -63,7 +63,7 @@ pipeline {
                     // The credentialsId is the ID of the SSH credentials you configured in Jenkins
                     sshagent(credentials: [SSH_CREDENTIALS_ID]) {
                         sh '''
-                            ssh ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && /home/issah/.nvm/versions/node/v14.10.0/bin/npm install"
+                            ssh ${REMOTE_USER}@${REMOTE_HOST} "export PATH=$PATH:/home/issah/.nvm/versions/node/v14.10.0/bin/ && cd ${REMOTE_PATH} && npm install"
                         '''
                     }
                 }
