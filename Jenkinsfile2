@@ -37,10 +37,12 @@ pipeline {
          stage('Read and Print JSON') {
             steps {
                 script {
-                    def jsonFile = readJSON file: '${RAPORT_PATH}/${FILE_NAME}'
+                    dir("${RAPORT_PATH}") {
+                        def jsonFile = readJSON file: ${FILE_NAME}
 
-                    jsonFile.each { key, value ->
-                        echo "Key: ${key}, Value: ${value}"
+                        jsonFile.each { key, value ->
+                            echo "Key: ${key}, Value: ${value}"
+                        }
                     }
                 }
             }
