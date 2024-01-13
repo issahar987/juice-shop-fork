@@ -35,6 +35,7 @@ pipeline {
                     node('webapp-agent') {
                         // Komendy SSH bez użycia sshagent
                         sh 'ls'
+                    }
                 }
             }
         }
