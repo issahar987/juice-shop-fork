@@ -21,7 +21,7 @@ pipeline {
         stage('Nikting') {
             steps {
                 script {
-                    sh "docker run --rm -v ${RAPORT_PATH}:/tmp --network="host" nikto -h ${REMOTE_HOST}:${REMOTE_PORT} -o /tmp/nikto.json "
+                    sh '''docker run --rm -v ${RAPORT_PATH}:/tmp --network="host" nikto -h ${REMOTE_HOST}:${REMOTE_PORT} -o /tmp/nikto.json '''
                 }
             }
         }
