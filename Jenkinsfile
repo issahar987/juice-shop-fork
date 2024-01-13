@@ -70,19 +70,19 @@ pipeline {
             }
         }
 
-        stage('Run Juice Shop on Remote Server') {
-            steps {
-                // Connect to remote server and start Juice Shop
-                script {
-                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-                        sh '''
-                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm start &"
-                            sleep 30
-                        '''
-                    }
-                }
-            }
-        }
+        // stage('Run Juice Shop on Remote Server') {
+        //     steps {
+        //         // Connect to remote server and start Juice Shop
+        //         script {
+        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+        //                 sh '''
+        //                     ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm start &"
+        //                     sleep 30
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
     //     stage('Run Tests') {
     //         steps {
