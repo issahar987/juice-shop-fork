@@ -20,7 +20,7 @@ pipeline {
         stage('Nikting') {
             steps {
                 script {
-                    sh "docker run --rm nikto ${REMOTE_HOST}:${REMOTE_PORT}"
+                    sh "docker run --rm nikto -h ${REMOTE_HOST}:${REMOTE_PORT}"
                 }
             }
         }
