@@ -7,7 +7,7 @@ pipeline {
     // }
 
     environment {
-        REMOTE_HOST = '34.76.3.235'
+        REMOTE_HOST = '35.233.110.153'
         REMOTE_USER = 'jenkins'
         REMOTE_PATH = '/home/jenkins/juiceshop'
         SSH_CREDENTIALS_ID = 'ssh-key-to-remote-server'
@@ -95,19 +95,19 @@ pipeline {
         //     }
         // }
 
-        stage('Run Juice Shop on Remote Server') {
-            steps {
-                // Connect to remote server and start Juice Shop
-                script {
-                        node('webapp-agent') {
-                            env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
-                            dir("${REMOTE_PATH}") {
-                                    sh 'npm start'
-                            }
-                        }
-                }
-            }
-        }
+        // stage('Run Juice Shop on Remote Server') {
+        //     steps {
+        //         // Connect to remote server and start Juice Shop
+        //         script {
+        //                 node('webapp-agent') {
+        //                     env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
+        //                     dir("${REMOTE_PATH}") {
+        //                             sh 'npm start'
+        //                     }
+        //                 }
+        //         }
+        //     }
+        // }
 
         // stage('Run Juice Shop on Remote Server') {
         //     steps {
