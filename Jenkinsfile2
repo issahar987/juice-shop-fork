@@ -30,23 +30,10 @@ pipeline {
                     try {
                         // Code that may throw an exception
                         echo "running image"
-                        sh "docker run  --rm nikto:latest"
+                        sh "nikto"
                     } catch (Exception a) {
-                        // Handle the exception
-                        echo "An exception occurred: ${a.message}"
-                        echo "image not working"
-                        try{
-                            echo "installing..."
-                            sh "cd nikto"
-                        } catch (Exception b) {
-                            echo "files not found..."
-                            sh "git clone https://github.com/sullo/nikto.git"
-                            sh "cd nikto"
-                        }
-                        sh "docker build -t nikto:latest ."
-                        echo "test1"
-                        sh "docker run --rm nikto:latest"
-                        echo "test2"
+                        sh "apt install nikto -y"
+                        sh "nikto"
                     }
                 }
             }
