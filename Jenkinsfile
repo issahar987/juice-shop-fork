@@ -55,15 +55,26 @@ pipeline {
                 }
             }
         }
+        
+        // stage('Build Docker Image on Remote Server') {
+        //     steps {
+        //         script {
+        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+        //                 sh "ssh ${REMOTE_USER}@${REMOTE_HOST} 'docker build -t ${DOCKER_IMAGE_NAME} -f ${REMOTE_PATH}/Dockerfile ${REMOTE_PATH}'"
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Install dependecies') {
             steps {
+                
                 // Deploy Juice Shop to remote server
                 script {
                     // The credentialsId is the ID of the SSH credentials you configured in Jenkins
                     sshagent(credentials: [SSH_CREDENTIALS_ID]) {
                         sh '''
-                            ssh ${REMOTE_USER}@${REMOTE_HOST} "export PATH=$PATH:/home/issah/.nvm/versions/node/v14.10.0/bin/ && cd ${REMOTE_PATH} && npm install"
+                            ssh ${REMOTE_USER}@${REMOTE_HOST} "export PATH=$PATH:/home/issah/.nvm/versions/node/v20.11.0/bin/ && cd ${REMOTE_PATH} && npm install"
                         '''
                     }
                 }
