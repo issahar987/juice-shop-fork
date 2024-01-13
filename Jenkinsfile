@@ -37,27 +37,33 @@ pipeline {
                     sshagent(credentials: [SSH_CREDENTIALS_ID]) {
                         // Now you can execute commands over SSH here
                         sh 'ssh ${REMOTE_USER}@${REMOTE_HOST} "ls"'
-                        sh "ls"
-                        echo "Current user: ${env.USER}"
-                        echo "whoami"
                     }
+                }
+            }
+        }
+
+        stage('SSH persistance') {
+            steps {
+                script {
+                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+                        sh 'ls
                 }
             }
         }
         
-        stage('Deploy to Remote Server') {
-            steps {
-                // Deploy Juice Shop to remote server
-                script {
-                    // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-                        sh '''
-                            scp -o StrictHostKeyChecking=no -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
-                        '''
-                    }
-                }
-            }
-        }
+        // stage('Deploy to Remote Server') {
+        //     steps {
+        //         // Deploy Juice Shop to remote server
+        //         script {
+        //             // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+        //                 sh '''
+        //                     scp -o StrictHostKeyChecking=no -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
     //     stage('Run Juice Shop on Remote Server') {
     //         steps {
