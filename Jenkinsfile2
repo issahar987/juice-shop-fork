@@ -16,7 +16,6 @@ pipeline {
         REMOTE_PORT = '3000'
         RAPORT_PATH = "/home/Nikto"
         FILE_NAME = "nikto.json"
-        SAFE_TRESHOLD = 20
     }
 
     stages {
@@ -41,7 +40,7 @@ pipeline {
                         def jsonFile = readJSON file: "${FILE_NAME}"                        
                         
                         def totalIndexes = jsonFile[0].vulnerabilities.size()
-                        if (totalIndexes > ${SAFE_TRESHOLD}) {
+                        if (totalIndexes > 20) {
                             error "Build failed: Total number of vulnerabilities is greater than ${SAFE_TRESHOLD} (${totalIndexes})"
                         } else{
                             echo "It's safe with 'only' ${totalIndexes} vulnerabilities"
