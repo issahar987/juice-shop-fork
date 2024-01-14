@@ -9,7 +9,7 @@ pipeline {
     environment {
         REMOTE_HOST = '35.233.110.153'
         REMOTE_USER = 'jenkins'
-        REMOTE_PATH = '/home/jenkins/juiceshop'
+        REMOTE_PATH = '/home/jenkins/juiceshop_git'
         SSH_CREDENTIALS_ID = 'ssh-key-to-remote-server'
     }
 
@@ -47,13 +47,26 @@ pipeline {
                 script {
                     // The credentialsId is the ID of the SSH credentials you configured in Jenkins
                     sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-                        sh '''
-                            scp -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
-                        '''
+                        dir("${REMOTE_PATH}") {
+                             sh 'git pull'
+                         }
                     }
                 }
             }
         }
+        // stage('Deploy to Remote Server') {
+        //     steps {
+        //         // Deploy Juice Shop to remote server
+        //         script {
+        //             // The credentialsId is the ID of the SSH credentials you configured in Jenkins
+        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+        //                 sh '''
+        //                     scp -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
         
         // stage('Build Docker Image on Remote Server') {
         //     steps {
