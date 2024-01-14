@@ -41,7 +41,7 @@ pipeline {
                         def jsonFile = readJSON file: "${FILE_NAME}"                        
                         
                         def totalIndexes = jsonFile[0].vulnerabilities.size()
-                        if (totalIndexes > SAFE_TRESHOLD) {
+                        if (totalIndexes > SAFE_TRESHOLD as Integer) {
                             error "Build failed: Total number of vulnerabilities is greater than ${SAFE_TRESHOLD} (${totalIndexes})"
                         } else{
                             echo "It's safe with 'only' ${totalIndexes} vulnerabilities"
