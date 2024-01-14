@@ -14,14 +14,34 @@ pipeline {
     }
 
     stages {
-        stage('Check User') {
+        stage('Trigger Nikto Job') {
             steps {
                 script {
-                    echo "Current user: ${env.USER}"
-                    echo "whoami"
+                    def downstreamBuild = build job: 'Nikto', wait: true
+
+                    catchError(buildResult: 'FAILURE') {
+                        if (downstreamBuild.resultIsBetterOrEqualTo('FAILURE')) {
+                            error 'Nikto job failed. Stopping the pipeline.'
+                        }
+                    }
                 }
             }
         }
+
+        stage('Trigger Cypress Tests Job') {
+            steps {
+                script {
+                    def downstreamBuild = build job: 'Cypress tests', wait: true
+
+                    catchError(buildResult: 'FAILURE') {
+                        if (downstreamBuild.resultIsBetterOrEqualTo('FAILURE')) {
+                            error 'Cypress tests job failed. Stopping the pipeline.'
+                        }
+                    }
+                }
+            }
+        }
+
         stage('Checkout') {
             steps {
                 // Checkout your source code repository (assuming it contains the Juice Shop code)
