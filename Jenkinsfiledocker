@@ -40,7 +40,7 @@ pipeline {
                 // Deploy Juice Shop to remote server
                 script {
                     // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+                    node('webapp-agent') {
                         dir("${REMOTE_PATH}") {
                              sh 'git pull'
                          }
