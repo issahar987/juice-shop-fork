@@ -14,20 +14,6 @@ pipeline {
     }
 
     stages {
-        stage('Trigger Nikto Job') {
-            steps {
-                script {
-                    def downstreamBuild = build job: 'Nikto', wait: true
-
-                    catchError(buildResult: 'FAILURE') {
-                        if (downstreamBuild.resultIsBetterOrEqualTo('FAILURE')) {
-                            error 'Nikto job failed. Stopping the pipeline.'
-                        }
-                    }
-                }
-            }
-        }
-
         stage('Trigger Cypress Tests Job') {
             steps {
                 script {
@@ -89,6 +75,20 @@ pipeline {
                             }
                     }
                 }
+        }
+
+        stage('Trigger Nikto Job') {
+            steps {
+                script {
+                    def downstreamBuild = build job: 'Nikto', wait: true
+
+                    catchError(buildResult: 'FAILURE') {
+                        if (downstreamBuild.resultIsBetterOrEqualTo('FAILURE')) {
+                            error 'Nikto job failed. Stopping the pipeline.'
+                        }
+                    }
+                }
+            }
         }
         
         // stage('Build Docker Image on Remote Server') {
