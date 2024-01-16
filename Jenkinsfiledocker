@@ -49,19 +49,6 @@ pipeline {
             }
         }
 
-        stage('Stop previous docker run') {
-                     steps {
-                         script {
-                             node('webapp-agent') {
-                                 dir("${REMOTE_PATH}") {
-                                     sh 'docker stop juice-shop:latest'
-                                 }
-                               
-                            }
-                    }
-                }
-        }
-
         stage('Build docker') {
              steps {
                  script {
