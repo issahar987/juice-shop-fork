@@ -1,5 +1,9 @@
 pipeline {
-    agent any  
+    agent {
+        node {
+            label 'EO'
+        }
+    }   
 
     triggers {
         // Trigger the pipeline on every push to the repository
