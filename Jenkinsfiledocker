@@ -69,6 +69,7 @@ pipeline {
                              node('webapp-agent') {
         //                 env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
                                  dir("${REMOTE_PATH}") {
+                                     sh 'docker stop $(docker ps -q)'
                                      sh 'docker run -d -p 3000:3000 juice-shop:latest'
                                  }
                                
