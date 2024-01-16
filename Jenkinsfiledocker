@@ -49,19 +49,19 @@ pipeline {
             }
         }
 
-        //stage('Build docker') {
-        //     steps {
-        //         script {
-        //             node('webapp-agent') {
-        //                 env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
-        //                 dir("${REMOTE_PATH}") {
-        //                     sh 'docker build -t juice-shop:latest -f Dockerfile .'
-        //                 }
-        //               
-        //             }
-        //         }
-        //     }
-        //}
+        stage('Build docker') {
+             steps {
+                 script {
+                     node('webapp-agent') {
+                         env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
+                         dir("${REMOTE_PATH}") {
+                             sh 'docker build -t juice-shop-fork:latest -f Dockerfile .'
+                         }
+                       
+                     }
+                 }
+             }
+        }
 
         stage('Check and Remove Container') {
             steps {
@@ -80,12 +80,13 @@ pipeline {
                 }
             }
         }
+
         stage('Run docker') {
                      steps {
                          script {
                              node('webapp-agent') {
                                  dir("${REMOTE_PATH}") {
-                                     sh 'docker run -d -p 3000:3000 juice-shop:latest'
+                                     sh 'docker run -d -p 3000:3000 juice-shop-fork:latest'
                                  }
                                
                             }
