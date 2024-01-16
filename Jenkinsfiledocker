@@ -65,17 +65,19 @@ pipeline {
 
         stage('Check and Remove Container') {
             steps {
-                script {
-                    def CONTAINER_ID = sh returnStdout: true, script: 'docker ps -a | grep 3000 | awk \'{print $1}\''
-
-                    if (CONTAINER_ID) {
-                        echo "Identyfikator kontenera na porcie 3000: ${CONTAINER_ID}"
-
-                        // Tutaj możesz dodać dodatkowe kroki, np. zatrzymać i usunąć kontener:
-                        sh "docker stop ${CONTAINER_ID}"
-                        sh "docker rm ${CONTAINER_ID}"
-                    } else {
-                        echo "Nie znaleziono kontenera na porcie 3000."
+                node('webapp-agent') {
+                    script {
+                        def CONTAINER_ID = sh returnStdout: true, script: 'docker ps -a | grep 3000 | awk \'{print $1}\''
+    
+                        if (CONTAINER_ID) {
+                            echo "Identyfikator kontenera na porcie 3000: ${CONTAINER_ID}"
+    
+                            // Tutaj możesz dodać dodatkowe kroki, np. zatrzymać i usunąć kontener:
+                            sh "docker stop ${CONTAINER_ID}"
+                            sh "docker rm ${CONTAINER_ID}"
+                        } else {
+                            echo "Nie znaleziono kontenera na porcie 3000."
+                        }
                     }
                 }
             }
