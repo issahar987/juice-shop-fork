@@ -80,20 +80,20 @@ pipeline {
         //     }
         // }
 
-        // stage('Install dependecies') {
-        //     steps {
-        //         script {
-        //             node('webapp-agent') {
-        //                 // Komendy SSH bez użycia sshagent
-        //                 env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
-        //                 dir("${REMOTE_PATH}") {
-        //                     sh 'npm install'
-        //                 }
+        stage('Install dependecies') {
+            steps {
+                script {
+                    node('webapp-agent') {
+                        // Komendy SSH bez użycia sshagent
+                        env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
+                        dir("${REMOTE_PATH}") {
+                            sh 'npm install'
+                        }
                        
-        //             }
-        //         }
-        //     }
-        // }
+                    }
+                }
+            }
+        }
 
         stage('Run Juice Shop on Remote Server') {
             steps {
