@@ -49,6 +49,19 @@ pipeline {
             }
         }
 
+        stage('Stop previous docker run') {
+                     steps {
+                         script {
+                             node('webapp-agent') {
+                                 dir("${REMOTE_PATH}") {
+                                     sh 'docker stop juice-shop:latest'
+                                 }
+                               
+                            }
+                    }
+                }
+        }
+
         stage('Build docker') {
              steps {
                  script {
@@ -67,9 +80,7 @@ pipeline {
                      steps {
                          script {
                              node('webapp-agent') {
-        //                 env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
                                  dir("${REMOTE_PATH}") {
-                                     sh 'docker stop $(docker ps -q)'
                                      sh 'docker run -d -p 3000:3000 juice-shop:latest'
                                  }
                                
