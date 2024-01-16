@@ -14,15 +14,16 @@ pipeline {
     }
 
     stages {
+
         stage('Trigger Cypress Tests Job') {
             steps {
                 script {
-                    def downstreamBuild = build job: 'Cypress tests', wait: true
-
-                    catchError(buildResult: 'FAILURE') {
-                        if (downstreamBuild.resultIsBetterOrEqualTo('FAILURE')) {
-                            error 'Cypress tests job failed. Stopping the pipeline.'
-                        }
+                    def cypressJob = build job: 'Cypress tests', wait: true
+        
+                    if (cypressJob.getResult() == 'FAILURE') {
+                        error 'Cypress Tests job failed. Stopping the pipeline.'
+                    } else {
+                    echo "cypressJob succeeded."
                     }
                 }
             }
@@ -102,7 +103,8 @@ pipeline {
                     def nikto_job = build job: 'Nikto', wait: true
                     if (nikto_job.getResult() == 'FAILURE') {
                         error 'Nikto job failed. Stopping the pipeline.'
-                    }
+                    } else {
+                echo "Nikto job succeeded."
                 }
             }
         }
