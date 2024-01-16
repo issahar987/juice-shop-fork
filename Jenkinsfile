@@ -46,7 +46,7 @@ pipeline {
                 // Deploy Juice Shop to remote server
                 script {
                     // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+                    node('webapp-agent') {
                         dir("${REMOTE_PATH}") {
                              sh 'git pull'
                          }
@@ -54,19 +54,6 @@ pipeline {
                 }
             }
         }
-        // stage('Deploy to Remote Server') {
-        //     steps {
-        //         // Deploy Juice Shop to remote server
-        //         script {
-        //             // The credentialsId is the ID of the SSH credentials you configured in Jenkins
-        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-        //                 sh '''
-        //                     scp -r ./* ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}
-        //                 '''
-        //             }
-        //         }
-        //     }
-        // }
         
         // stage('Build Docker Image on Remote Server') {
         //     steps {
@@ -108,19 +95,19 @@ pipeline {
         //     }
         // }
 
-        // stage('Run Juice Shop on Remote Server') {
-        //     steps {
-        //         // Connect to remote server and start Juice Shop
-        //         script {
-        //                 node('webapp-agent') {
-        //                     env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
-        //                     dir("${REMOTE_PATH}") {
-        //                             sh 'npm start'
-        //                     }
-        //                 }
-        //         }
-        //     }
-        // }
+        stage('Run Juice Shop on Remote Server') {
+            steps {
+                // Connect to remote server and start Juice Shop
+                script {
+                        node('webapp-agent') {
+                            env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
+                            dir("${REMOTE_PATH}") {
+                                    sh 'npm run start5000'
+                            }
+                        }
+                }
+            }
+        }
 
         // stage('Run Juice Shop on Remote Server') {
         //     steps {
