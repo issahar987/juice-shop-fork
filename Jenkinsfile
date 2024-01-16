@@ -102,7 +102,7 @@ pipeline {
                         node('webapp-agent') {
                             env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
                             dir("${REMOTE_PATH}") {
-                                    sh 'npm run start5000 &'
+                                    sh 'npm run start5000'
                             }
                         }
                 }
