@@ -95,33 +95,33 @@ pipeline {
         //     }
         // }
 
-        stage('Run Juice Shop on Remote Server') {
-            steps {
-                // Connect to remote server and start Juice Shop
-                script {
-                        node('webapp-agent') {
-                            env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
-                            dir("${REMOTE_PATH}") {
-                                    sh 'npm run start5000'
-                            }
-                        }
-                }
-            }
-        }
-
         // stage('Run Juice Shop on Remote Server') {
         //     steps {
         //         // Connect to remote server and start Juice Shop
         //         script {
-        //             sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-        //                 sh '''
-        //                     ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm start &"
-        //                     sleep 30
-        //                 '''
-        //             }
+        //                 node('webapp-agent') {
+        //                     env.PATH = "/home/jenkins/.nvm/versions/node/v20.11.0/bin:${env.PATH}"
+        //                     dir("${REMOTE_PATH}") {
+        //                             sh 'npm run start5000'
+        //                     }
+        //                 }
         //         }
         //     }
         // }
+
+        stage('Run Juice Shop on Remote Server') {
+            steps {
+                // Connect to remote server and start Juice Shop
+                script {
+                    sshagent(credentials: [SSH_CREDENTIALS_ID]) {
+                        sh '''
+                            ssh -o StrictHostKeyChecking=no -i $SSH_KEY ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_PATH} && npm run start5000 &"
+                            sleep 30
+                        '''
+                    }
+                }
+            }
+        }
 
     //     stage('Run Tests') {
     //         steps {
@@ -136,7 +136,6 @@ pipeline {
     //             }
     //         }
     //     }
-    }
 
     // post {
     //     success {
@@ -153,4 +152,5 @@ pipeline {
     //         echo "Build failed! Skipping clean up."
     //     }
     // }
+    }
 }
