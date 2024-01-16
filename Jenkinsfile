@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    // triggers {
-    //     // Trigger the pipeline on every push to the repository
-    //     githubPush()
-    // }
+    triggers {
+        // Trigger the pipeline on every push to the repository
+        githubPush()
+    }
 
     environment {
         REMOTE_HOST = '35.233.110.153'
