@@ -99,12 +99,9 @@ pipeline {
         stage('Trigger Nikto Job') {
             steps {
                 script {
-                    def downstreamBuild = build job: 'Nikto', wait: true
-
-                    catchError(buildResult: 'FAILURE') {
-                        if (downstreamBuild.resultIsBetterOrEqualTo('FAILURE')) {
-                            error 'Nikto job failed. Stopping the pipeline.'
-                        }
+                    def nikto_job = build job: 'Nikto', wait: true
+                    if (nikto_job.getResult() == 'FAILURE') {
+                        error 'Nikto job failed. Stopping the pipeline.'
                     }
                 }
             }
