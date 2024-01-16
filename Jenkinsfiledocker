@@ -66,7 +66,7 @@ pipeline {
         stage('Check and Remove Container') {
             steps {
                 script {
-                    CONTAINER_ID = sh(script: 'docker ps -a | grep 3000 | awk \'{print $1}\'', returnStdout: true).trim()
+                    def CONTAINER_ID = sh returnStdout: true, script: 'docker ps -a | grep 3000 | awk \'{print $1}\''
 
                     if (CONTAINER_ID) {
                         echo "Identyfikator kontenera na porcie 3000: ${CONTAINER_ID}"
