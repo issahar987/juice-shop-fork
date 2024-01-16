@@ -16,7 +16,7 @@ pipeline {
         REMOTE_PORT = '3000'
         RAPORT_PATH = "/home/Nikto"
         FILE_NAME = "nikto.json"
-        SAFE_TRESHOLD = 200
+        SAFE_TRESHOLD = 100
     }
 
     stages {
